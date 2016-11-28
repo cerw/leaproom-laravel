@@ -28,14 +28,23 @@
     </div>
 
     <div class="row">
-        <video class="col-md-4" id="preview" controls muted></video>
+        <div class="col-md-12">
+              <video class="thumbnail col-lg-offset-4 col-md-4" id="preview"></video>
+        </div>
+    </div>
+
+    <div class="row">
+        <canvas id="canvas" width="1000" height="325" style="display: block;"></canvas>
     </div>
 
     <div class="row">
         @foreach(App\Video::get() as $video)
-            <img class="col-md-2 thumbnail" id={{$video->id}}-preview" src="/screenshots/{{$video->id}}.jpg"/>
+            <img class="col-md-2 thumbnail animated bounceInLeft" data-video="{{$video->filename}}"
+                 id={{$video->id}}-preview" src="/screenshots/{{$video->id}}.jpg"/>
         @endforeach
     </div>
+
+
 
 
     <script>
