@@ -17,5 +17,9 @@ Route::get('/', function () {
 
 
 
+Route::get('video', 'VideoController@index')
+     ->name("video.index");
+
+
 Route::post('video/store', 'VideoController@store')
      ->name("video.store");
