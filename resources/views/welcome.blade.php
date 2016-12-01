@@ -7,16 +7,21 @@
 
     <title>Leap Room</title>
     <link rel="stylesheet" href="{{ elixir('css/app.css') }}">
+    <script src="{{ asset('js/three.js') }}"></script>
+    <script src="{{ asset('js/OrbitControls.js') }}"></script>
 
+    <script src="{{ asset('js/socket.io-1.4.5.js') }}"></script>
+    <script src="{{ asset('js/echo.js') }}"></script>
+    {{--<script src="//leap.dev:6001/socket.io/socket.io.js"></script>--}}
     <script src="{{ elixir('js/app.js') }}"></script>
     <!-- Fonts -->
 </head>
 <body>
 <div class="container">
-    <h1>demo</h1>
+    <h1>press start</h1>
     <div class="row">
 
-        <div class="col-md-12">
+        <div class="col-md-12 btn-group">
             <button class="btn btn-success" id="record">
                 Start
             </button>
@@ -26,25 +31,17 @@
             </button>
         </div>
     </div>
+    <video class="thumbnail" muted id="preview" width="1000" height="400"></video>
+    <canvas id="canvas" width="1000" height="400"></canvas>
 
-    <div class="row">
-        <div class="col-md-12">
-              <video class="thumbnail col-lg-offset-4 col-md-4" id="preview"></video>
-        </div>
-    </div>
 
-    <div class="row">
-        <canvas id="canvas" width="1000" height="325" style="display: block;"></canvas>
-    </div>
 
-    <div class="row">
-        @foreach(App\Video::get() as $video)
-            <img class="col-md-2 thumbnail animated bounceInLeft" data-video="{{$video->filename}}"
+    <div class="row" id="videos">
+        @foreach(App\Video::latest()->get() as $video)
+            <img class="col-md-2 col-sm-3 thumbnail animated bounceInLeft" data-video="{{$video->filename}}"
                  id={{$video->id}}-preview" src="/screenshots/{{$video->id}}.jpg"/>
         @endforeach
     </div>
-
-
 
 
     <script>
@@ -58,6 +55,8 @@
                 //document.querySelector('h1').innerHTML = ffmpeg_output.replace(/\\n/g, '<br />');
                 //preview.src = 'uploads/' + fileName + '-merged.webm';
                 //preview.play();
+                $("h1").text("playback");
+                $("#videos").prepend('<img class="col-md-2 thumbnail animated bounceInLeft" data-video="' + video.filename + '" id="' + video.id + '-preview" src="/screenshots/' + video.id + '.jpg"/>')
                 //preview.muted = false;
                 console.log(video.filename);
                 preview.src = "/" + video.filename;
@@ -73,6 +72,8 @@
         var preview = document.getElementById('preview');
         var container = document.getElementById('container');
         var recordAudio, recordVideo;
+        var length = 5000;
+        var display, tick;
         record.onclick = function () {
             record.disabled = true;
             !window.stream && navigator.getUserMedia({
@@ -89,6 +90,12 @@
                 preview.src = window.URL.createObjectURL(stream);
                 preview.play();
                 preview.muted = true;
+                console.log(window.stream)
+                console.log("got new scream ");
+
+                var display = timer(true);
+
+
                 recordAudio = RecordRTC(stream, {
                     // bufferSize: 16384,
                     onAudioProcessStarted: function () {
@@ -114,9 +121,9 @@
             fileName = Math.round(Math.random() * 99999999) + 99999999;
 
             recordAudio.stopRecording(function () {
-                document.querySelector('h1').innerHTML = 'Got audio-blob. Getting video-blob...';
+                document.querySelector('h1').innerHTML = 'got audio-blob. Getting video-blob...';
                 recordVideo.stopRecording(function () {
-                    document.querySelector('h1').innerHTML = 'Uploading to server...';
+                    document.querySelector('h1').innerHTML = 'uploading to server...';
                     webcamnOff();
                     PostBlob(recordAudio.getBlob(), recordVideo.getBlob(), fileName);
 
@@ -125,6 +132,29 @@
 
         };
 
+        function timer(newone) {
+
+            if (newone == true) {
+                tick = 0;
+
+            } else {
+                tick++;
+
+            }
+
+            display = length - (100 * tick);
+            $("h1").text("stopping in " + display / 100 + " ");
+            if (display > 0) {
+                setTimeout(function () {
+                    timer(false);
+                }, 100);
+            } else {
+                console.log("finisshed");
+                $("#stop").click();
+            }
+
+        }
+
         function webcamnOff() {
             //clearInterval(theDrawLoop);
             //ExtensionData.vidStatus = 'off';
@@ -132,6 +162,7 @@
             preview.src = "";
             window.stream.getTracks()[0].stop();
             window.stream.getTracks()[1].stop();
+            window.stream = false;
             console.log("Vid off");
         }
         function xhr(url, data, callback) {

@@ -23,3 +23,6 @@ Route::get('video', 'VideoController@index')
 
 Route::post('video/store', 'VideoController@store')
      ->name("video.store");
+
+Route::post('phones/store', 'PhonesController@store')
+     ->name("phones.store");

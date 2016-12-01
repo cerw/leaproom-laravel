@@ -5,17 +5,16 @@
  */
 
 
-
-
 $(function () {
+
+
 
     $('[data-video]').on('click', function (e) {
         var video = $(this).data("video");
 
+        $("#preview").removeAttr('muted');
         $("#preview").attr('src', video);
         $("#preview").get(0).play();
-
-
 
 
     });
@@ -23,8 +22,8 @@ $(function () {
 
     // create the audio context (chrome only for now)
     // create the audio context (chrome only for now)
-    if (! window.AudioContext) {
-        if (! window.webkitAudioContext) {
+    if (!window.AudioContext) {
+        if (!window.webkitAudioContext) {
             alert('no audiocontext found');
         }
         window.AudioContext = window.webkitAudioContext;
@@ -48,11 +47,11 @@ $(function () {
     // create a gradient for the fill. Note the strange
     // offset, since the gradient is calculated based on
     // the canvas, not the specific element we draw
-    var gradient = ctx.createLinearGradient(0,0,0,100);
-    gradient.addColorStop(1,'#000000');
-    gradient.addColorStop(0.75,'#ff0000');
-    gradient.addColorStop(0.25,'#ffff00');
-    gradient.addColorStop(0,'#ffffff');
+    var gradient = ctx.createLinearGradient(0, 0, 0, 100);
+    gradient.addColorStop(1, '#000000');
+    gradient.addColorStop(0.75, '#ff0000');
+    gradient.addColorStop(0.25, '#ffff00');
+    gradient.addColorStop(0, '#ffffff');
 
     // load the sound
     setupAudioNodes();
@@ -85,27 +84,27 @@ $(function () {
     // when the javascript node is called
     // we use information from the analyzer node
     // to draw the volume
-    javascriptNode.onaudioprocess = function() {
+    javascriptNode.onaudioprocess = function () {
 
         // get the average for the first channel
-        var array =  new Uint8Array(analyser.frequencyBinCount);
+        var array = new Uint8Array(analyser.frequencyBinCount);
         analyser.getByteFrequencyData(array);
 
         // clear the current state
-        ctx.clearRect(0, 0, 1000, 325);
+        ctx.clearRect(0, 0, 1000, 400);
 
         // set the fill style
-        ctx.fillStyle=gradient;
+        ctx.fillStyle = gradient;
         drawSpectrum(array);
 
     }
 
 
     function drawSpectrum(array) {
-        for ( var i = 0; i < (array.length); i++ ){
+        for (var i = 0; i < (array.length); i++) {
             var value = array[i];
 
-            ctx.fillRect(i*5,325-value,3,325);
+            ctx.fillRect(i * 5, 400 - value, 3, 400);
             //  console.log([i,value])
         }
     };

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\PhoneAdded;
+use App\Phone;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Phone::created(function ($phone) {
+            event(new PhoneAdded($phone));
+        });
     }
 
     /**
