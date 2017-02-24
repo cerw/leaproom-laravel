@@ -15,16 +15,15 @@ window.Echo = new Echo({
 //     alert(e.phone);
 // });
 
-window.Echo.channel('phones').listen('phone.created', function (phone) {
-    alert(phone);
+window.Echo.channel('phones').listen('.created', function (phone) {
     console.log('data', phone);
 });
-
-// var socket = io('https://leap.dev:6001');
 //
+// var socket = io('https://leap.dev:6001');
+// //
 // socket.on('*', function (data) {
 //     if (data.target) {
 //         alert(data);
 //     }
 // });
-
+//

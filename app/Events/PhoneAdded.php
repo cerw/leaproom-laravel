@@ -20,7 +20,7 @@ class PhoneAdded implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'phone.created';
+        return 'created';
     }
 
     /**

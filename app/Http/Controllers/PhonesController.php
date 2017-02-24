@@ -29,7 +29,7 @@ class PhonesController extends Controller
             ]);
         }
 
-        new \App\Phone::create(['mac'  => 1, 'ip'   => 2, 'name' => 3]);
+        //new \App\Phone::create(['mac'  => 1, 'ip'   => 2, 'name' => 3]);
 
     }
 

@@ -1,6 +1,5 @@
 {
-	"appKey": "insf5pqeg4e631gm18gd2sf3je2tjmkemu3i5o0hq3h36ag6c5b94m44qdft",
-	"authHost": null,
+	"authHost": "https://leap.dev",
 	"authEndpoint": "/broadcasting/auth",
 	"database": "redis",
 	"databaseConfig": {
@@ -10,7 +9,6 @@
 	"protocol": "https",
 	"host": "leap.dev",
 	"port": "6001",
-	"referrers": [],
 	"socketio": {},
 	"sslCertPath": "/Users/cerw/.valet/Certificates/leap.dev.crt",
 	"sslKeyPath": "/Users/cerw/.valet/Certificates/leap.dev.key"

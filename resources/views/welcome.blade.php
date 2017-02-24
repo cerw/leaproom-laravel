@@ -14,6 +14,7 @@
     <script src="{{ asset('js/echo.js') }}"></script>
     {{--<script src="//leap.dev:6001/socket.io/socket.io.js"></script>--}}
     <script src="{{ elixir('js/app.js') }}"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Fonts -->
 </head>
 <body>
@@ -72,7 +73,7 @@
         var preview = document.getElementById('preview');
         var container = document.getElementById('container');
         var recordAudio, recordVideo;
-        var length = 5000;
+        var length = 2000;
         var display, tick;
         record.onclick = function () {
             record.disabled = true;
