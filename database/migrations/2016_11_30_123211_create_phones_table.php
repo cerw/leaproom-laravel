@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreatePhonesTable extends Migration
 {
@@ -15,10 +15,10 @@ class CreatePhonesTable extends Migration
     {
         Schema::create('phones', function (Blueprint $table) {
             $table->increments('id');
-            $table->string("mac");
-            $table->string("ip");
-            $table->string("name");
-            $table->string("type")->nullable();
+            $table->string('mac');
+            $table->string('ip');
+            $table->string('name');
+            $table->string('type')->nullable();
             $table->timestamps();
         });
     }
