@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 class Video extends Model
 {
     protected $fillable = [
-        'filename'
+        'filename',
     ];
 
     public function getUrlAttribute()

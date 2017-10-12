@@ -9,6 +9,6 @@ class Phone extends Model
     protected $fillable = [
         'mac',
         'ip',
-        'name'
+        'name',
     ];
 }
